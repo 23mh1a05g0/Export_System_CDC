@@ -94,6 +94,15 @@ curl http://localhost:8080/health
 
 ```bash
 curl -X POST http://localhost:8080/exports/full -H "X-Consumer-ID: my-app"
+
+OR
+
+Invoke-WebRequest `
+  -Uri "http://localhost:8080/exports/full" `
+  -Method POST `
+  -Headers @{"X-Consumer-ID"="my-app"} `
+  -UseBasicParsing
+
 # → {"jobId":"abc-123","status":"started","exportType":"full","outputFilename":"full_my-app_1718451234.csv"}
 ```
 
@@ -103,6 +112,14 @@ After a few seconds, check the `output/` directory for the generated CSV file.
 
 ```bash
 curl http://localhost:8080/exports/watermark -H "X-Consumer-ID: my-app"
+
+OR
+
+Invoke-WebRequest `
+  -Uri "http://localhost:8080/exports/watermark" `
+  -Headers @{"X-Consumer-ID"="my-app"} `
+  -UseBasicParsing
+
 # → {"consumerId":"my-app","lastExportedAt":"2025-06-15T10:30:00.000Z"}
 ```
 
@@ -115,6 +132,15 @@ docker-compose exec db psql -U user -d mydatabase -c \
 
 # Export only the changes
 curl -X POST http://localhost:8080/exports/incremental -H "X-Consumer-ID: my-app"
+
+OR
+
+Invoke-WebRequest `
+  -Uri "http://localhost:8080/exports/incremental" `
+  -Method POST `
+  -Headers @{"X-Consumer-ID"="my-app"} `
+  -UseBasicParsing
+  
 # → Only the modified record(s) will appear in the new CSV
 ```
 
